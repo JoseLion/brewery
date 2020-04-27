@@ -29,24 +29,3 @@ test {
     junitXml.destination = file("${buildDir}/test-results/junit")
   }
 }
-
-gradle.taskGraph.whenReady {
-  if (gradle.startParameter.writeDependencyLocks == true) {
-    def lockFile = new File('gradle.lock')
-    def mergeList = files(
-      'gradle/wrapper/gradle-wrapper.properties',
-      fileTree('gradle/dependency-locks').getFiles()
-    )
-
-    lockFile.write('')
-    mergeList.each {
-      lockFile << "## LOCKFILE: ${it.name}\n"
-      lockFile << '#\n'
-      lockFile << it.text
-
-      if (it != mergeList.last()) {
-        lockFile << '\n\n'
-      }
-    }
-  }
-}
