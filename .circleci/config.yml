@@ -19,9 +19,8 @@ jobs:
           path: ~/repo/brewery
 
       - run:
-          name: Provisioning
-          command: |
-            echo "systemProp.freezeLocks=true" >> gradle.properties
+          name: Generate gradle.lock
+          command: cat gradle/wrapper/gradle-wrapper.properties gradle/dependency-locks/* > gradle.lock
 
       - restore_cache:
           keys:
