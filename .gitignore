@@ -37,3 +37,6 @@ build/
 .settings/
 .classpath
 .project
+
+# 12 Factor Config
+gradle.properties

@@ -3,3 +3,6 @@
 # This file is expected to be part of source control.
 com.github.joselion.pretty-jupiter:com.github.joselion.pretty-jupiter.gradle.plugin:1.2.0
 gradle.plugin.com.github.joselion.pretty-jupiter:pretty-jupiter:1.2.0
+org.sonarqube:org.sonarqube.gradle.plugin:2.8
+org.sonarsource.scanner.api:sonar-scanner-api:2.14.0.2002
+org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8

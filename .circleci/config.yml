@@ -39,6 +39,10 @@ jobs:
       - run:
           name: Coverage
           command: ./gradlew jacocoTestReport
+      
+      - run:
+          name: Quality Gate
+          command: ./gradlew sonarqube
 
       - save_cache:
           paths:
@@ -56,4 +60,5 @@ jobs:
 workflows:
   main:
     jobs:
-      - build
+      - build:
+          context: SonarCloud
