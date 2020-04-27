@@ -1,0 +1,52 @@
+version: 2.1
+
+executors:
+  setup-env:
+    working_directory: ~/repo/brewery
+
+    docker:
+      - image: circleci/openjdk:14.0.1-jdk-buster
+    
+    environment:
+      JVM_OPTS: -Xmx4096m
+
+jobs:
+  build:
+    executor: setup-env
+
+    steps:
+      - checkout:
+          path: ~/repo/brewery
+
+      - run:
+          name: Provisioning
+          command: |
+            echo "systemProp.freezeLocks=true" >> gradle.properties
+
+      - restore_cache:
+          keys:
+            - v1-gradle-lock-{{ .Branch }}-{{ checksum "gradle.lock" }}
+            - v1-gradle-lock-{{ .Branch }}-
+            - v1-gradle-lock-
+
+      - run:
+          name: Build
+          command: ./gradlew build -x test
+
+      - run:
+          name: Test
+          command: ./gradlew test
+
+      - save_cache:
+          paths:
+            - ~/repo/brewery/.gradle
+            - ~/.gradle
+          key: v1-gradle-lock-{{ .Branch }}-{{ checksum "gradle.lock" }}
+
+      - store_test_results:
+          path: build/test-results
+
+workflows:
+  main:
+    jobs:
+      - build

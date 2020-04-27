@@ -8,3 +8,8 @@
  */
 
 rootProject.name = 'brewery'
+
+if (System.properties['freezeLocks'] == null) {
+  startParameter.setWriteDependencyLocks(true)
+}
+
