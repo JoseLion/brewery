@@ -5,7 +5,7 @@ executors:
     working_directory: ~/repo/brewery
 
     docker:
-      - image: circleci/openjdk:14.0.1-jdk-buster
+      - image: circleci/openjdk:13.0.1-jdk-buster
     
     environment:
       JVM_OPTS: -Xmx4096m
@@ -39,11 +39,16 @@ jobs:
       - run:
           name: Coverage
           command: ./gradlew jacocoTestReport
+      
+      - run:
+          name: Quality Gate
+          command: ./gradlew sonarqube
 
       - save_cache:
           paths:
             - ~/repo/brewery/.gradle
             - ~/.gradle
+            - ~/.sonar/cache
           key: v1-gradle-lock-{{ .Branch }}-{{ checksum "gradle.lock" }}
 
       - deploy:
@@ -56,4 +61,5 @@ jobs:
 workflows:
   main:
     jobs:
-      - build
+      - build:
+          context: SonarCloud
