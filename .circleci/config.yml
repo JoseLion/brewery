@@ -36,11 +36,19 @@ jobs:
           name: Test
           command: ./gradlew test
 
+      - run:
+          name: Coverage
+          command: ./gradlew jacocoTestReport
+
       - save_cache:
           paths:
             - ~/repo/brewery/.gradle
             - ~/.gradle
           key: v1-gradle-lock-{{ .Branch }}-{{ checksum "gradle.lock" }}
+
+      - deploy:
+          name: Upload reports
+          command: bash <(curl -s https://codecov.io/bash)
 
       - store_test_results:
           path: build/test-results
