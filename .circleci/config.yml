@@ -5,7 +5,7 @@ executors:
     working_directory: ~/repo/brewery
 
     docker:
-      - image: circleci/openjdk:14.0.1-jdk-buster
+      - image: circleci/openjdk:13.0.1-jdk-buster
     
     environment:
       JVM_OPTS: -Xmx4096m
@@ -48,6 +48,7 @@ jobs:
           paths:
             - ~/repo/brewery/.gradle
             - ~/.gradle
+            - ~/.sonar/cache
           key: v1-gradle-lock-{{ .Branch }}-{{ checksum "gradle.lock" }}
 
       - deploy:
